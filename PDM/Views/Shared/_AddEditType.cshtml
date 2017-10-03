@@ -1,0 +1,14 @@
+﻿@model PDM.ViewModels.ItemTypeViewModel
+@using PDM.Code
+
+<form role="form" asp-action="Create">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Add New Item Type" })
+
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input class="form-control" asp-for="Name" />
+        </div>
+    </div>
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>

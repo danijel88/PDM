@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PDM.ViewModels.ItemViewModel>
+@using PDM.Code
+@{
+    ViewData["Title"] = "Item Lists";
+}
+
+<hr />
+<a id="createItem" data-toggle="modal" asp-action="Create" data-target="#myModal" class="btn btn-success">
+    <i class="glyphicon glyphicon-plus"></i> Add New
+</a>
+<hr />
+@foreach (var item in Model)
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            #@item.Id - Internal Code: @item.InternalCode
+        </div>
+        <div class="panel-body">
+            <div class="rows">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+                    <img src="@item.ImagePath" class="img-responsive img-rounded" width="300" height="300" />
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+                    <strong>Name On Item: </strong>@item.Name<br />
+                    <strong>Item Type: </strong>@item.ItemType.Name<br />
+                    <strong>Machine Type: </strong>@item.MachineType.Name<br />
+                    <strong>Made By: </strong>@item.MadeBy<br />
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+                    <strong>Enter: </strong>@item.Enter mm<br />
+                    <strong>Exit: </strong>@item.Exit mm<br />
+                    <strong>Thickness: </strong>@item.Thickness mm<br />
+                    <strong>Band: </strong>@item.Band<br />
+                    <strong>Elastic: </strong>@item.Elastic<br />
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-primary" asp-action="Create" asp-route-id="@item.Id" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-upload"></i> Upload Pictures</a>
+            <a class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i> Details</a>
+            <a class="btn btn-default"><i class="glyphicon glyphicon-transfer"></i> Proposal</a>
+            <a class="btn btn-link"><i class="glyphicon glyphicon-download"></i> Download</a>
+        </div>
+    </div>
+}
+@Html.Partial("_Modal", new BootstrapModel { ID = "myModal", AreaLabeledId = "modal-action-item-type", Size = ModalSize.Large })

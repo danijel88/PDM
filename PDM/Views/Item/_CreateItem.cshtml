@@ -1,0 +1,84 @@
+﻿@model PDM.ViewModels.ItemViewModel
+@using PDM.Code
+
+@{
+    ViewData["Title"] = "Create New Item";
+}
+<form role="form" method="post" asp-action="Create" enctype="multipart/form-data">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = string.Format("{0} Item", Model.Id == 0 ? "Add" : "Edit") })
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label asp-for="Id"></label>
+            <input class="form-control" asp-for="Id" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="CreateDate"></label>
+            <input class="form-control" asp-for="CreateDate" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="InternalCode"></label>
+            <input type="text" asp-for="InternalCode" class="form-control" readonly />
+            <span asp-validation-for="InternalCode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name">Name On Item</label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input type="text" asp-for="Description" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Enter"></label>
+            <input asp-for="Enter" class="form-control" />
+            <span asp-validation-for="Enter" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Exit"></label>
+            <input asp-for="Exit" class="form-control" />
+            <span asp-validation-for="Exit" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Thickness"></label>
+            <input asp-for="Thickness" class="form-control" />
+            <span asp-validation-for="Thickness" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Band"></label>
+            <input asp-for="Band" class="form-control" />
+            <span asp-validation-for="Band" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Elastic"></label>
+            <input asp-for="Elastic" class="form-control" />
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Color"></label>
+            <input asp-for="Color" class="form-control" />
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MadeBy"></label>
+            <input asp-for="MadeBy" class="form-control" />
+            <span asp-validation-for="MadeBy" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MachineType"></label>
+            <select class="form-control" asp-for="MachineTypeId" asp-items="@(new SelectList(ViewBag.MachineTypes,"Id","Name"))"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ItemType"></label>
+            <select class="form-control" asp-for="ItemTypeId" asp-items="@(new SelectList(ViewBag.ItemTypes,"Id","Name"))"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImagePath"></label>
+            <input class="form-control" type="file" name="files" asp-for="ImagePath" />
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using PDM.Data;
 using PDM.Models;
+using PDM.Models.Repository;
 using PDM.Services;
+using PDM.ViewModels;
 
 namespace PDM
 {
@@ -35,13 +35,25 @@ namespace PDM
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<ItemTypeViewModel, ItemType>().ReverseMap();
+                config.CreateMap<MachineTypeViewModel, MachineType>().ReverseMap();
+                config.CreateMap<ItemViewModel, Item>().ReverseMap();
+            });
+
+            loggerFactory.AddConsole();
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<PDM.ViewModels.MachineTypeViewModel>
+@using PDM.Code
+
+@{
+    ViewData["Title"] = "Machine Type List";
+}
+<hr />
+<a id="createMachineType" data-toggle="modal" asp-action="Create" data-target="#myModal" class="btn btn-primary">
+    <i class="glyphicon glyphicon-plus"></i> Add New
+</a>
+<hr />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>List of Machine Types</h3>
+    </div>
+    <div class="panel-body">
+        @foreach (var item in Model)
+            {
+            <div class="text-info">
+                @item.Name
+            </div>
+        }
+    </div>
+</div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "myModal", AreaLabeledId = "modal-action-item-type", Size = ModalSize.Large })
