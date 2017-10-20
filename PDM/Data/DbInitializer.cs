@@ -38,10 +38,10 @@ namespace PDM.Data
             }
 
             //creating the default Admin account
-            string user = "danijel.boksan@fiorano.rs";
-            string password = "Danijel88!";
+            string user = "user@domain.com";
+            string password = "D@n!jel88!";
 
-            await _userManager.CreateAsync(new ApplicationUser { FirstName = "Danijel", LastName = "Boksan", Company = "Fiorano doo", Email = user, UserName = user }, password);
+            await _userManager.CreateAsync(new ApplicationUser { FirstName = "Danijel", LastName = "Boksan", Company = "Company Name", Email = user, UserName = user }, password);
             await _userManager.AddToRoleAsync(await _userManager.FindByNameAsync(user), "Administrator");
         }
     }
