@@ -9,6 +9,34 @@
     <i class="glyphicon glyphicon-plus"></i> Add New
 </a>
 <hr />
+<div class="panel panel-warning">
+    <div class="panel-heading text-center">
+        Filters
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <input class="form-control" id="srcInternalCode" placeholder="Search Internal Code" />
+                <input class="form-control" id="srcMachineType" placeholder="Search Machine Type" />
+                <input class="form-control" id="srcItemType" placeholder="Search Item Type" />
+                <input class="form-control" id="srcStatus" placeholder="Search Status" />
+            </div>
+            <div class="col-lg-4">
+                <input class="form-control" id="srcEnter" placeholder="Search Enter" />
+                <input class="form-control" id="srcExit" placeholder="Search Exit" />
+                <input class="form-control" id="srcThickness" placeholder="Search Thickness" />
+            </div>
+            <div class="col-lg-4">
+                <input class="form-control" id="srcBand" placeholder="Search Band" />
+                <input class="form-control" id="srcElastic" placeholder="Search Elastic" />
+                <input class="form-control" id="srcPdm" placeholder="Search PDM" />
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<hr />
 @foreach (var item in Model)
 {
     <div class="panel panel-info">
@@ -20,28 +48,39 @@
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
                     <img src="@item.ImagePath" class="img-responsive img-rounded" width="300" height="300" />
                 </div>
-                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" id="types">
                     <strong>Name On Item: </strong>@item.Name<br />
                     <strong>Item Type: </strong>@item.ItemType.Name<br />
                     <strong>Machine Type: </strong>@item.MachineType.Name<br />
                     <strong>Made By: </strong>@item.MadeBy<br />
+                    <strong>Status: </strong>@item.Status<br />
                 </div>
-                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" id="specs">
                     <strong>Enter: </strong>@item.Enter mm<br />
                     <strong>Exit: </strong>@item.Exit mm<br />
                     <strong>Thickness: </strong>@item.Thickness mm<br />
                     <strong>Band: </strong>@item.Band<br />
                     <strong>Elastic: </strong>@item.Elastic<br />
+                    <strong>PDM: </strong>
+                    @foreach (var i in item.Pdms)
+                    {
+                        @string.Format("{0},", i.Name)
+
+                    }
+
                 </div>
             </div>
         </div>
         <div class="panel-footer">
             <a class="btn btn-primary" asp-action="Create" asp-route-id="@item.Id" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-            <a class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-upload"></i> Upload Pictures</a>
-            <a class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i> Details</a>
-            <a class="btn btn-default"><i class="glyphicon glyphicon-transfer"></i> Proposal</a>
-            <a class="btn btn-link"><i class="glyphicon glyphicon-download"></i> Download</a>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="ItemImage" asp-route-id="@item.Id"><i class="glyphicon glyphicon-upload"></i> Upload Pictures</a>
+            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list-alt"></i> Details</a>
+            <a class="btn btn-default" asp-action="Proposal" asp-route-id="@item.Id"><i class="glyphicon glyphicon-transfer"></i> Proposal</a>
+            <a class="btn btn-link" asp-action="Download" asp-controller="ItemImage" asp-route-id="@item.Id"><i class="glyphicon glyphicon-transfer"></i> Upload/Download</a>
         </div>
     </div>
+}
+@section Scripts{
+    <script src="~/js/search-items.js" asp-append-version="true"></script>
 }
 @Html.Partial("_Modal", new BootstrapModel { ID = "myModal", AreaLabeledId = "modal-action-item-type", Size = ModalSize.Large })

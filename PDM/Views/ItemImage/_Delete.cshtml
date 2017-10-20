@@ -1,0 +1,11 @@
+﻿@model PDM.ViewModels.ItemImageViewModel
+@using PDM.Code
+
+<form asp-action="Delete" method="post">
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Delete Image" })
+    <div class="modal-body form-horizontal">
+        Are you want to delete?
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Delete" })
+</form>
+

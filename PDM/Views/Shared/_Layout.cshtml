@@ -1,55 +1,194 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewData["Title"] - PDM</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/font-awsome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/app.v1.css" />
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/font-awsome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/app.v1.min.css" />
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PDM</a>
+    <!-- Preloader -->
+    <div class="loading-container">
+        <div class="loading">
+            <div class="l1">
+                <div></div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
+            <div class="l2">
+                <div></div>
+            </div>
+            <div class="l3">
+                <div></div>
+            </div>
+            <div class="l4">
+                <div></div>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - PDM</p>
-        </footer>
     </div>
+    <!-- Preloader -->
+
+
+    <aside class="left-panel">
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+            <div class="user text-center">
+                <div class="dropdown user-login">
+                    <h4>@UserManager.GetUserName(User)</h4>
+                    <button class="btn btn-xs dropdown-toggle btn-rounded" type="button" data-toggle="dropdown" aria-expanded="true">
+                        <i class="fa fa-circle status-icon available"></i><i class="fa fa-angle-down">User Settings</i>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" asp-controller="Manage" asp-action="ChangePassword"><i class="fa fa-circle status-icon busy"></i> Change Password</a></li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <ul class="list-unstyled">
+                    <li><a asp-area="" asp-controller="Item" asp-action="Index"><i class="fa fa-bookmark-o"></i>Item</a></li>
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
+                {
+                        <li><a asp-area="" asp-controller="ItemType" asp-action="Index"><i class="fa fa-bookmark-o"></i>Item Type</a></li>
+                        <li><a asp-area="" asp-controller="MachineType" asp-action="Index"><i class="fa fa-bookmark-o"></i>Machine Type</a></li>
+                        <li><a asp-area="" asp-controller="Pdm" asp-action="Index"><i class="fa fa-bookmark-o"></i>Pdm</a></li>
+                    }
+                    @if (User.IsInRole("Administrator"))
+                {
+
+                        <li><a asp-area="" asp-controller="UserManagement" asp-action="Index"><i class="fa fa-bookmark-o"></i>Users</a></li>
+                    }
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-bookmark-o"></i>Contact</a></li>
+                    <li>
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <button class="btn btn-link navbar-btn navbar-link" type="submit"><i class="fa fa-sign-out"></i>Log Out</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        }
+        else
+        {
+            <a asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+        }
+
+    </aside>
+    <!-- Aside Ends-->
+
+    <section class="content">
+
+        <header class="top-head container-fluid">
+            <button type="button" class="navbar-toggle pull-left">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <ul class="nav-toolbar">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown"><i class="fa fa-newspaper-o"></i> <span class="badge bg-warning">7</span></a>
+                    <div class="dropdown-menu md arrow pull-right panel panel-default arrow-top-right messages-dropdown">
+                        <div class="panel-heading">
+                            Messages
+                        </div>
+
+                        <div class="list-group">
+
+                            <a href="#" class="list-group-item">
+                                <div class="media">
+                                    <div class="user-status busy pull-left">
+                                        <img class="media-object img-circle pull-left" src="assets/images/avtar/user2.png" alt="user#1" width="40">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Lorem ipsum dolor sit consect....</h5>
+                                        <small class="text-muted">23 Sec ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <div class="media">
+                                    <div class="user-status offline pull-left">
+                                        <img class="media-object img-circle pull-left" src="assets/images/avtar/user3.png" alt="user#1" width="40">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Nunc elementum, enim vitae</h5>
+                                        <small class="text-muted">23 Sec ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <div class="media">
+                                    <div class="user-status invisibled pull-left">
+                                        <img class="media-object img-circle pull-left" src="assets/images/avtar/user4.png" alt="user#1" width="40">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Praesent lacinia, arcu eget</h5>
+                                        <small class="text-muted">23 Sec ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <div class="media">
+                                    <div class="user-status online pull-left">
+                                        <img class="media-object img-circle pull-left" src="assets/images/avtar/user5.png" alt="user#1" width="40">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">In mollis blandit tempor.</h5>
+                                        <small class="text-muted">23 Sec ago</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="btn btn-info btn-flat btn-block">View All Messages</a>
+
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </header>
+        <!-- Header Ends -->
+
+
+        <div class="warper container-fluid">
+            <div class="row">
+                @RenderBody()
+            </div>
+
+        </div>
+        <!-- Warper Ends Here (working area) -->
+
+
+        <footer class="container-fluid footer">
+            Copyright &copy; 2017 Danijel Bokšan <a href="#" target="_blank"></a>
+            <a href="#" class="pull-right scrollToTop"><i class="fa fa-chevron-up"></i></a>
+        </footer>
+
+
+    </section>
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/js/jquery-1.9.1.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/custom.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -58,6 +197,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
+
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
@@ -65,6 +205,8 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/custom.js" asp-append-version="true"></script>
+        <script src="~/js/jquery-1.9.1.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

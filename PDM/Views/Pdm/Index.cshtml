@@ -1,0 +1,37 @@
+﻿@model IEnumerable<PDM.ViewModels.PdmViewModel>
+@using PDM.Code
+
+@{
+    ViewData["Title"] = "PDM List";
+
+}
+<div class="row">
+    <hr />
+    <a id="createItem" data-toggle="modal" asp-action="Create" data-target="#myModal" class="btn btn-success">
+        <i class="glyphicon glyphicon-plus"></i> Add New
+    </a>
+
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>PDM Code</td>
+                <td>Item</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pdm in Model)
+            {
+                <tr>
+                    <td>@pdm.Id</td>
+                    <td>@pdm.Name</td>
+                    <td>@pdm.Item.InternalCode</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+
+</div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "myModal", AreaLabeledId = "modal-action-item-type", Size = ModalSize.Large })

@@ -27,6 +27,11 @@ namespace PDM.Models.Repository
             entities.Remove(entity);
         }
 
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+
         public T Get(int id)
         {
             return entities.SingleOrDefault(s => s.Id == id);
@@ -77,6 +82,11 @@ namespace PDM.Models.Repository
             entities.Add(entity);
         }
 
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync() > 0);
@@ -87,8 +97,6 @@ namespace PDM.Models.Repository
         {
 
             entities.Update(entity);
-
-
         }
     }
 }

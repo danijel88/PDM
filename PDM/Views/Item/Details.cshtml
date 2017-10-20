@@ -1,0 +1,67 @@
+﻿@model IEnumerable<PDM.ViewModels.ItemViewModel>
+
+@using PDM.Code
+
+@{
+    ViewData["Title"] = "Item Details";
+}
+<br />
+<a asp-action="Index" asp-controller="Item" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i> Back To Items</a>
+
+<div class="row table-responsive">
+    @foreach (var item in Model)
+    {
+        <h2 class="text-center">@item.InternalCode</h2>
+        <hr />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Name On Item</td>
+                    <td>Description</td>
+                    <td>Machine Type</td>
+                    <td>Item Type</td>
+                    <td>Made by</td>
+                    <td>Status</td>
+                    <td>Enter</td>
+                    <td>Exit</td>
+                    <td>Thickness</td>
+                    <td>Band</td>
+                    <td>Elasstic</td>
+                    <td>PDM Code</td>
+                    <td>History</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.MachineType.Name</td>
+                    <td>@item.ItemType.Name</td>
+                    <td>@item.MadeBy</td>
+                    <td>@item.Status</td>
+                    <td>@item.Enter</td>
+                    <td>@item.Exit</td>
+                    <td>@item.Thickness</td>
+                    <td>@item.Band</td>
+                    <td>@item.Elastic</td>
+                    <td>
+                        @foreach (var pdm in item.Pdms)
+                        {
+                            @pdm.Name<br />
+
+                        }
+                    </td>
+                    <td><a class="btn btn-info" asp-action="History" asp-route-id="@item.Id" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-list"></i> History</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="img-responsive">
+            @foreach (var img in item.Images)
+            {
+                <img class="img-rounded" src="@img.Name" width="250" height="250" />
+
+            }
+        </div>
+    }
+</div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "myModal", AreaLabeledId = "modal-action-item-type", Size = ModalSize.Large })

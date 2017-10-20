@@ -15,6 +15,9 @@ namespace PDM.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemImage> ItemImages { get; set; }
         public DbSet<Pdm> Pdm { get; set; }
+        public DbSet<ItemHist> ItemHists { get; set; }
+        public DbSet<Proposal> Propospals { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -36,6 +39,17 @@ namespace PDM.Data
                 .IsUnique(true);
 
             });
+
+            builder.Entity<ItemHist>(entity =>
+            {
+                entity
+                  .HasOne(h => h.Item)
+                  .WithMany(i => i.History)
+                  .HasForeignKey("ItemTypeId")
+                  .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

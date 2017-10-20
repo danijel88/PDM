@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using PDM.Models;
 using PDM.Models.ManageViewModels;
 using PDM.Services;
+using System;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace PDM.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
+    [Authorize(Roles = "Administrator,Manager,Operator,Member")]
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

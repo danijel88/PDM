@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label asp-for="InternalCode"></label>
-            <input type="text" asp-for="InternalCode" class="form-control" readonly />
+            <input type="text" asp-for="InternalCode" class="form-control" />
             <span asp-validation-for="InternalCode" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -75,8 +75,8 @@
             <select class="form-control" asp-for="ItemTypeId" asp-items="@(new SelectList(ViewBag.ItemTypes,"Id","Name"))"></select>
         </div>
         <div class="form-group">
-            <label asp-for="ImagePath"></label>
-            <input class="form-control" type="file" name="files" asp-for="ImagePath" />
+            <label asp-for="Status"></label>
+            <select class="form-control" asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()"></select>
         </div>
     </div>
 

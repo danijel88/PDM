@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PDM.Models
@@ -26,19 +27,28 @@ namespace PDM.Models
 
         public string ImagePath { get; set; }
 
+        public Status Status { get; set; }
+
         [Required]
         [StringLength(150)]
         public string MadeBy { get; set; }
 
+        public int MachineTypeId { get; set; }
+
         [ForeignKey("MachineTypeId")]
         public virtual MachineType MachineType { get; set; }
+
+
 
         [ForeignKey("ItemTypeId")]
         public virtual ItemType ItemType { get; set; }
 
         public int ItemTypeId { get; set; }
 
+        public virtual ICollection<Pdm> Pdms { get; set; }
 
+        public virtual ICollection<ItemImage> Images { get; set; }
 
+        public virtual ICollection<ItemHist> History { get;set; }
     }
 }

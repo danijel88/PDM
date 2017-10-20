@@ -11,6 +11,8 @@ namespace PDM.Models.Repository
         void Update(T entity);
         void Delete(T entity);
         Task<bool> SaveChangesAsync();
+        void SaveChanges();
+        void Dispose();
         T Get(int id);
         T Get(Expression<Func<T, bool>> predicate);
         T Get(Expression<Func<T, bool>> predicate, string[] includes);

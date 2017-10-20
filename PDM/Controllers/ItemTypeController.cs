@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PDM.Models;
@@ -6,10 +7,12 @@ using PDM.Models.Repository;
 using PDM.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PDM.Controllers
 {
+    [Authorize(Roles = "Administrator,Manager")]
     public class ItemTypeController : Controller
     {
         private IRepository<ItemType> _repository;
@@ -44,6 +47,7 @@ namespace PDM.Controllers
                 {
                     var newType = Mapper.Map<ItemType>(viewModel);
                     newType.CreateDate = DateTime.Now;
+                    newType.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     var exist = _repository.Get(w => string.Equals(w.Name, viewModel.Name, StringComparison.CurrentCultureIgnoreCase));
                     if (exist != null)
                     {

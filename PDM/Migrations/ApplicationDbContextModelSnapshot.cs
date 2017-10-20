@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using PDM.Data;
+using PDM.Models;
 using System;
 
 namespace PDM.Migrations
@@ -215,7 +216,7 @@ namespace PDM.Migrations
 
                     b.Property<int>("ItemTypeId");
 
-                    b.Property<int?>("MachineTypeId");
+                    b.Property<int>("MachineTypeId");
 
                     b.Property<string>("MadeBy")
                         .IsRequired()
@@ -224,6 +225,8 @@ namespace PDM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
+
+                    b.Property<int>("Status");
 
                     b.Property<decimal>("Thickness");
 
@@ -245,6 +248,65 @@ namespace PDM.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("PDM.Models.ItemHist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Band");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4096);
+
+                    b.Property<bool>("Elastic");
+
+                    b.Property<decimal>("Enter");
+
+                    b.Property<decimal>("Exit");
+
+                    b.Property<string>("InternalCode")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("ItemId");
+
+                    b.Property<int>("ItemTypeId");
+
+                    b.Property<int>("MachineTypeId");
+
+                    b.Property<string>("MadeBy")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int>("Status");
+
+                    b.Property<decimal>("Thickness");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemTypeId");
+
+                    b.HasIndex("MachineTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ItemHists");
+                });
+
             modelBuilder.Entity("PDM.Models.ItemImage", b =>
                 {
                     b.Property<int>("Id")
@@ -255,6 +317,10 @@ namespace PDM.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(4096);
 
+                    b.Property<bool>("Download");
+
+                    b.Property<int>("ItemId");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
@@ -264,6 +330,8 @@ namespace PDM.Migrations
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("UserId");
 
@@ -326,6 +394,78 @@ namespace PDM.Migrations
                     b.ToTable("MachineTypes");
                 });
 
+            modelBuilder.Entity("PDM.Models.Pdm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4096);
+
+                    b.Property<int>("ItemId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Pdm");
+                });
+
+            modelBuilder.Entity("PDM.Models.Proposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Band");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(4096);
+
+                    b.Property<bool>("Elastic");
+
+                    b.Property<decimal>("Enter");
+
+                    b.Property<decimal>("Exit");
+
+                    b.Property<int>("ItemId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Notes");
+
+                    b.Property<int>("Status");
+
+                    b.Property<decimal>("Thickness");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Propospals");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -380,7 +520,30 @@ namespace PDM.Migrations
 
                     b.HasOne("PDM.Models.MachineType", "MachineType")
                         .WithMany()
-                        .HasForeignKey("MachineTypeId");
+                        .HasForeignKey("MachineTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PDM.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("PDM.Models.ItemHist", b =>
+                {
+                    b.HasOne("PDM.Models.Item", "Item")
+                        .WithMany("History")
+                        .HasForeignKey("ItemTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("PDM.Models.ItemType", "ItemType")
+                        .WithMany()
+                        .HasForeignKey("ItemTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PDM.Models.MachineType", "MachineType")
+                        .WithMany()
+                        .HasForeignKey("MachineTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PDM.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
@@ -389,6 +552,11 @@ namespace PDM.Migrations
 
             modelBuilder.Entity("PDM.Models.ItemImage", b =>
                 {
+                    b.HasOne("PDM.Models.Item", "Item")
+                        .WithMany("Images")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("PDM.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
@@ -403,6 +571,30 @@ namespace PDM.Migrations
 
             modelBuilder.Entity("PDM.Models.MachineType", b =>
                 {
+                    b.HasOne("PDM.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("PDM.Models.Pdm", b =>
+                {
+                    b.HasOne("PDM.Models.Item", "Item")
+                        .WithMany("Pdms")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PDM.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("PDM.Models.Proposal", b =>
+                {
+                    b.HasOne("PDM.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("PDM.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");

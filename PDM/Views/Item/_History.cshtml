@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PDM.ViewModels.ItemHistViewModel>
+@inject UserManager<ApplicationUser> userManager
+
+@using PDM.Code
+
+@await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "History" })
+<div class="modal-body">
+    <div class="table-responsive">
+        <table class="table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Create Date</td>
+                    <td>User</td>
+                    <td>Internal Code</td>
+                    <td>Name On Item</td>
+                    <td>Description</td>
+                    <td>Machine Type</td>
+                    <td>Item Type</td>
+                    <td>Made by</td>
+                    <td>Status</td>
+                    <td>Enter</td>
+                    <td>Exit</td>
+                    <td>Thickness</td>
+                    <td>Band</td>
+                    <td>Elastic</td>
+                    <td>User</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hist in Model)
+            {
+                    <tr>
+                        <td>@hist.Id</td>
+                        <td>@hist.CreateDate</td>
+                        <td>@hist.UserId</td>
+                        <td>@hist.InternalCode</td>
+                        <td>@hist.Name</td>
+                        <td>@hist.Description</td>
+                        <td>@hist.MachineType.Name</td>
+                        <td>@hist.ItemType.Name</td>
+                        <td>@hist.MadeBy</td>
+                        <td>@hist.Status</td>
+                        <td>@hist.Enter</td>
+                        <td>@hist.Exit</td>
+                        <td>@hist.Thickness</td>
+                        <td>@hist.Band</td>
+                        <td>@hist.Elastic</td>
+                        <td></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

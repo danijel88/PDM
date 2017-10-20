@@ -1,4 +1,5 @@
 ﻿using PDM.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,6 +25,8 @@ namespace PDM.ViewModels
         [StringLength(150)]
         public string Color { get; set; }
 
+        public Status Status { get; set; }
+
         public string ImagePath { get; set; }
 
         [Required]
@@ -39,5 +42,11 @@ namespace PDM.ViewModels
         public virtual ItemType ItemType { get; set; }
 
         public int ItemTypeId { get; set; }
+
+        public virtual ICollection<Pdm> Pdms { get; set; }
+
+        public virtual ICollection<ItemImage> Images { get; set; }
+
+        public virtual ICollection<ItemHist> History { get; set; }
     }
 }

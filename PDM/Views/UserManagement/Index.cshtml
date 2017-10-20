@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using PDM.Code
+@model PDM.Models.AccountViewModels.UserManagementIndexViewModel
+@inject UserManager<ApplicationUser> userManager
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<hr />
+<a id="createItem" data-toggle="modal" asp-action="Create" data-target="#myModal" class="btn btn-success">
+    <i class="glyphicon glyphicon-plus"></i> Add New User
+</a>
+<hr />
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <td>Email</td>
+            <td>Roles</td>
+            <td>Options</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@(string.Join(",", await userManager.GetRolesAsync(user)))</td>
+                <td><a asp-action="AddRole" asp-controller="UserManagement" asp-route-id="@user.Id">Add Role</a> | <a asp-action="RemoveRole" asp-controller="UserManagement" asp-route-id="@user.Email">Remove Role</a></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+@Html.Partial("_Modal", new BootstrapModel { ID = "myModal", AreaLabeledId = "modal-action-item-type", Size = ModalSize.Large })

@@ -16,4 +16,5 @@
         var self = new Customer();
         self.init();
     })
+
 }(jQuery))

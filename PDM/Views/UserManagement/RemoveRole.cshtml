@@ -1,0 +1,12 @@
+﻿@model PDM.Models.AccountViewModels.UserManagementRemoveRoleViewModel
+@inject RoleManager<IdentityRole> roleManager
+
+<form asp-action="RemoveRole" method="post" role="form">
+    <input type="hidden" asp-for="Email" />
+
+    @foreach (var role in Model.Roles)
+    {
+        <input class="form-control" asp-for="@role" readonly />
+
+    }
+</form>
